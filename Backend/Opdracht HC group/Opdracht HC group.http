@@ -1,0 +1,6 @@
+@Opdracht_HC_group_HostAddress = http://localhost:5233
+
+GET {{Opdracht_HC_group_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
