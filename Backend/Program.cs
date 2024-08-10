@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Opdracht_HC_group.Data;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<Opdracht_HC_groupContext>();
+//options => options.UseSqlServer(builder.Configuration.GetConnectionString("Opdracht_HC_groupContext") ?? throw new InvalidOperationException("Connection string 'Opdracht_HC_groupContext' not found.")));
 
 // Add services to the container.
 
