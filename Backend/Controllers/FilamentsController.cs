@@ -25,14 +25,14 @@ namespace Opdracht_HC_group.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Filament>>> GetFilament()
         {
-            return await _context.Filament.ToListAsync();
+            return await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).ToListAsync();
         }
 
         // GET: api/Filaments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Filament>> GetFilament(Guid id)
         {
-            var filament = await _context.Filament.FindAsync(id);
+            var filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).FirstOrDefaultAsync(i => i.FilamentId == id);
 
             if (filament == null)
             {

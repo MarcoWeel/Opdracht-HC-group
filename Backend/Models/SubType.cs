@@ -11,8 +11,8 @@ namespace Opdracht_HC_group.Models
         [Required]
         [StringLength(25)]
         public string Name { get; set; }
-        [Required]
-        [ForeignKey("MainType")]
+        [ForeignKey("MainTypeId")]
+        public MainType? MainType { get; set; }
         public Guid MainTypeId { get; set; }
     }
 }

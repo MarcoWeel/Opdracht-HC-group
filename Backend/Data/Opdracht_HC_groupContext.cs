@@ -13,6 +13,8 @@ namespace Opdracht_HC_group.Data
         //    : base(options)
         //{
         //}
+
+        ///Using in memory to simplify execution and setup for the assignment.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseInMemoryDatabase(databaseName: "Opdracht_HC_groupDB");

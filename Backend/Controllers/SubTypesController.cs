@@ -25,7 +25,7 @@ namespace Opdracht_HC_group.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubType>>> GetSubType()
         {
-            return await _context.SubType.ToListAsync();
+            return await _context.SubType.Include(a=>a.MainType).ToListAsync();
         }
 
         // GET: api/SubTypes/5
@@ -33,6 +33,19 @@ namespace Opdracht_HC_group.Controllers
         public async Task<ActionResult<SubType>> GetSubType(Guid id)
         {
             var subType = await _context.SubType.FindAsync(id);
+
+            if (subType == null)
+            {
+                return NotFound();
+            }
+
+            return subType;
+        }
+
+        [HttpGet("/GetByMainType/{id}")]
+        public async Task<ActionResult<IEnumerable<SubType>>> GetSubTypeByMainTypeId(Guid id)
+        {
+            var subType = await _context.SubType.Where(a => a.MainTypeId == id).ToListAsync();
 
             if (subType == null)
             {
