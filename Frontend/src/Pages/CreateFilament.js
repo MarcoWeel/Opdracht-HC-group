@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import baseURL from './Api';
-import BrandsDropdown from './BrandsDropdown';
-import TypeDropdowns from './TypeDropdowns';
+import baseURL from '../Components/Api';
+import BrandsDropdown from '../Components/BrandsDropdown';
+import TypeDropdowns from '../Components/TypeDropdowns';
+import { useNavigate } from "react-router-dom";
 
 
-const Filaments = () => {
+const CreateFilament = () => {
 
-    const [filaments, setFilaments] = useState([]);
     const [diameter, setDiameter] = useState(0);
     const [subTypeId, setSubTypeId] = useState("00000000-0000-0000-0000-000000000000");
     const [brandId, setBrandId] = useState("00000000-0000-0000-0000-000000000000");
-
+    const [name, setName] = useState("");
+    const navigate = useNavigate();
     const receiveBrandData = (item) => {
         setBrandId(item);
     };
@@ -21,17 +22,15 @@ const Filaments = () => {
         setSubTypeId(item);
     };
 
-    const handleInput = (e) => {
+    const handleDiameterInput = (e) => {
         console.log()
         setDiameter(Number(e.target.value));
     };
 
-    // useEffect(() => {
-    //     axios.get(baseURL + "/api/Filaments").then((data) => {
-    //         setFilaments(data?.data);
-    //     });
-    //     console.log(filaments)
-    // }, []);
+    const handleNameInput = (e) => {
+        console.log()
+        setName(e.target.value);
+    };
 
     const submitForm = (e) => {
         // We don't want the page to refresh
@@ -39,13 +38,12 @@ const Filaments = () => {
 
 
         // POST the data to the URL of the form
-        axios.post(baseURL + `/api/Filaments/Filter?diameter=${diameter}&brandId=${brandId}&subTypeId=${subTypeId}`, {
+        axios.post(baseURL + `/api/Filaments?diameter=${diameter}&brandId=${brandId}&subTypeId=${subTypeId}&name=${name}`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
             },
-        }).then((data) => {
-            setFilaments(data?.data);
+        }).then((data) => {navigate("/")
         }).catch(function (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
@@ -73,33 +71,22 @@ const Filaments = () => {
     document.head.appendChild(styleLink);
     return (
         <div>
-            <form style={{maxWidth:"250px"}} method="POST" action="" onSubmit={submitForm}>
+            <form style={{ maxWidth: "250px" }} method="POST" action="" onSubmit={submitForm}>
+                <div className="md:flex">
+                    <label>Name</label>
+                    <input className="text-black" name="description" onChange={handleNameInput}></input>
+                </div>
                 <BrandsDropdown sendBrandDataToParent={receiveBrandData} />
                 <TypeDropdowns sendTypeDataToParent={receiveTypeData} />
                 <div className="md:flex">
                     <label>Diameter</label>
-                    <input className="text-black" name="description" onChange={handleInput}></input>
+                    <input className="text-black" name="description" onChange={handleDiameterInput}></input>
                 </div>
-                <button className="md:flex" type="submit">Search</button>
+                <button className="md:flex" type="submit">Create filament</button>
             </form>
-            <a href='/createfilament'>Add new filament</a>
-            <ul>
-                {filaments.length != 0 && filaments.map((item, i) => {
-                    return (
-                        <li key={i}>
-                            <div>Name: {item?.name}</div>
-                            <div>Brand: {item?.brand.name}</div>
-                            <div>Main Type: {item?.subType.mainType.name}</div>
-                            <div>Sub Type: {item?.subType.name}</div>
-                            <div>Diameter: {item?.diameter}</div>
-                        </li>
-                    );
-                })}
-            </ul>
-            {filaments.length == 0 && <div>No Filaments found</div>}
         </div>
     );
 }
 
 
-export default Filaments;
+export default CreateFilament;

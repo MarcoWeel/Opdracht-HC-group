@@ -3,8 +3,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import baseURL from './Api';
 import { Dropdown } from 'semantic-ui-react'
+import "../App.css"
 
-function BrandsDropdown() {
+const BrandsDropdown = ({ sendBrandDataToParent  }) => {
 
     const [brands, setBrands] = useState([]);
 
@@ -14,11 +15,14 @@ function BrandsDropdown() {
         });
     }, []);
     const brandOptions = brands.map((item, i) => ({
-        key: i,
+        key: item.brandId,
         text: item.name,
-        value: item.id,
+        value: item.brandId,
     }))
-    return (<Dropdown placeholder='Brands' fluid multiple selection options={brandOptions} />);
+    return (<div class="grid-container">
+        <Dropdown  placeholder='Brands' fluid selection onChange={(e, data) => sendBrandDataToParent(data.value)} options={brandOptions} />
+        <a href='/createbrand'>Add new brand</a>
+        </div>);
 }
 
 export default BrandsDropdown;

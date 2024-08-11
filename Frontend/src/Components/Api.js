@@ -1,2 +1,2 @@
-const baseURL = "https://localhost:32772"
+const baseURL = "http://localhost:32773"
 export default baseURL
