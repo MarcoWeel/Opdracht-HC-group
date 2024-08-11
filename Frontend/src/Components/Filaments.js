@@ -4,6 +4,7 @@ import { useState } from 'react';
 import baseURL from './Api';
 import BrandsDropdown from './BrandsDropdown';
 import TypeDropdowns from './TypeDropdowns';
+import { useNavigate } from "react-router-dom";
 
 
 const Filaments = () => {
@@ -12,6 +13,7 @@ const Filaments = () => {
     const [diameter, setDiameter] = useState(0);
     const [subTypeId, setSubTypeId] = useState("00000000-0000-0000-0000-000000000000");
     const [brandId, setBrandId] = useState("00000000-0000-0000-0000-000000000000");
+    const navigate = useNavigate();
 
     const receiveBrandData = (item) => {
         setBrandId(item);
@@ -73,7 +75,7 @@ const Filaments = () => {
     document.head.appendChild(styleLink);
     return (
         <div>
-            <form style={{maxWidth:"250px"}} method="POST" action="" onSubmit={submitForm}>
+            <form style={{maxWidth:"400px"}} method="POST" action="" onSubmit={submitForm}>
                 <BrandsDropdown sendBrandDataToParent={receiveBrandData} />
                 <TypeDropdowns sendTypeDataToParent={receiveTypeData} />
                 <div className="md:flex">
