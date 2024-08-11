@@ -45,7 +45,24 @@ namespace Opdracht_HC_group.Controllers
         [HttpPost("Filter")]
         public async Task<ActionResult<IEnumerable<Filament>>> GetFilamentsByFilters(double diameter, Guid brandId, Guid subTypeId)
         {
-            var filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter && a.SubTypeId == subTypeId && a.BrandId == brandId).ToListAsync();
+            List<Filament> filament;
+            if (brandId != Guid.Empty && subTypeId != Guid.Empty)
+            {
+                 filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter && a.SubTypeId == subTypeId && a.BrandId == brandId).ToListAsync();
+            }
+            else if (brandId == Guid.Empty && subTypeId != Guid.Empty)
+            {
+                 filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter && a.SubTypeId == subTypeId).ToListAsync();
+            }
+            else if (subTypeId == Guid.Empty && brandId != Guid.Empty)
+            {
+                 filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter && a.BrandId == brandId).ToListAsync();
+            }
+            else
+            {
+                 filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter).ToListAsync();
+            }
+            
 
             if (filament == null)
             {

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const CreateFilament = () => {
 
-    const [diameter, setDiameter] = useState(0);
+    const [diameter, setDiameter] = useState(1.75);
     const [subTypeId, setSubTypeId] = useState("00000000-0000-0000-0000-000000000000");
     const [brandId, setBrandId] = useState("00000000-0000-0000-0000-000000000000");
     const [name, setName] = useState("");
@@ -79,8 +79,11 @@ const CreateFilament = () => {
                 <BrandsDropdown sendBrandDataToParent={receiveBrandData} />
                 <TypeDropdowns sendTypeDataToParent={receiveTypeData} />
                 <div className="md:flex">
-                    <label>Diameter</label>
-                    <input className="text-black" name="description" onChange={handleDiameterInput}></input>
+                <label>Diameter</label>
+                    <select onChange={handleDiameterInput}>
+                        <option value={1.75}>1.75mm</option>
+                        <option value={2.85}>2.85mm</option>
+                    </select>
                 </div>
                 <button className="md:flex" type="submit">Create filament</button>
             </form>
