@@ -42,6 +42,19 @@ namespace Opdracht_HC_group.Controllers
             return filament;
         }
 
+        [HttpPost("Filter")]
+        public async Task<ActionResult<IEnumerable<Filament>>> GetFilamentsByFilters(double diameter, Guid brandId, Guid subTypeId)
+        {
+            var filament = await _context.Filament.Include(a => a.SubType).ThenInclude(a => a.MainType).Include(a => a.Brand).Where(a => a.Diameter == diameter && a.SubTypeId == subTypeId && a.BrandId == brandId).ToListAsync();
+
+            if (filament == null)
+            {
+                return NotFound();
+            }
+
+            return filament;
+        }
+
         // PUT: api/Filaments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -76,8 +89,15 @@ namespace Opdracht_HC_group.Controllers
         // POST: api/Filaments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Filament>> PostFilament(Filament filament)
+        public async Task<ActionResult<Filament>> PostFilament(double diameter, Guid brandId, Guid subTypeId, string name)
         {
+            Filament filament = new Filament
+            {
+                Diameter = diameter,
+                BrandId = brandId,
+                SubTypeId = subTypeId,
+                Name = name
+            };
             _context.Filament.Add(filament);
             await _context.SaveChangesAsync();
 

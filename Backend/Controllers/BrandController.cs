@@ -76,8 +76,12 @@ namespace Opdracht_HC_group.Controllers
         // POST: api/Brand
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand(Brand brand)
+        public async Task<ActionResult<Brand>> PostBrand(string brandName)
         {
+            Brand brand = new Brand
+            {
+                Name = brandName
+            };
             _context.Brand.Add(brand);
             await _context.SaveChangesAsync();
 

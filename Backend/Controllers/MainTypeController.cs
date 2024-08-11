@@ -76,8 +76,12 @@ namespace Opdracht_HC_group.Controllers
         // POST: api/MainTypes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MainType>> PostMainType(MainType mainType)
+        public async Task<ActionResult<MainType>> PostMainType(string mainTypeName)
         {
+            MainType mainType = new MainType
+            {
+                Name = mainTypeName
+            };
             _context.MainType.Add(mainType);
             await _context.SaveChangesAsync();
 

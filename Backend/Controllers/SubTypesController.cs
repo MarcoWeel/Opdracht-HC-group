@@ -42,7 +42,7 @@ namespace Opdracht_HC_group.Controllers
             return subType;
         }
 
-        [HttpGet("/GetByMainType/{id}")]
+        [HttpGet("GetByMainType/{id}")]
         public async Task<ActionResult<IEnumerable<SubType>>> GetSubTypeByMainTypeId(Guid id)
         {
             var subType = await _context.SubType.Where(a => a.MainTypeId == id).ToListAsync();
@@ -89,8 +89,13 @@ namespace Opdracht_HC_group.Controllers
         // POST: api/SubTypes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<SubType>> PostSubType(SubType subType)
+        public async Task<ActionResult<SubType>> PostSubType(string subTypeName, Guid mainTypeId)
         {
+            SubType subType = new SubType
+            {
+                Name = subTypeName,
+                MainTypeId = mainTypeId
+            };
             _context.SubType.Add(subType);
             await _context.SaveChangesAsync();
 
